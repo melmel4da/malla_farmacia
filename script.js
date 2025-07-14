@@ -18,13 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // 4. Función principal para actualizar el estado visual de todas las asignaturas
             function actualizarEstadoMalla() {
                 // Obtener todos los IDs de las asignaturas que están marcadas como rendidas actualmente
-                const rendidasActuales = [];
-                materiaSlots.forEach(slot => {
-                    const id = slot.dataset.id;
-                    if (asignaturasById[id] && asignaturasById[id].rendida) {
-                        rendidasActuales.push(id);
-                    }
-                });
+                const rendidasActuales = Object.values(asignaturasById)
+                                             .filter(a => a.rendida)
+                                             .map(a => a.id);
 
                 // Iterar sobre cada slot de materia en la malla
                 materiaSlots.forEach(slot => {
@@ -40,22 +36,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     slot.classList.remove('rendida', 'disponible', 'no-disponible');
 
                     if (asignatura.rendida) {
-                        // Si la asignatura está rendida
+                        // SI ESTÁ RENDIDA: siempre morado
                         slot.classList.add('rendida');
                     } else {
-                        // Si no está rendida, verificamos si está disponible para cursar
+                        // SI NO ESTÁ RENDIDA:
                         const prerrequisitos = relacionesData
                             .filter(rel => rel.target === id) // Obtener los prerrequisitos de esta asignatura
                             .map(rel => rel.source); // Quedarse solo con los IDs de los prerrequisitos
 
-                        const todosPrerrequisitosRendidos = prerrequisitos.every(prereqId => rendidasActuales.includes(prereqId));
+                        const todosPrerrequisitosRendidos = prerrequisitos.length > 0 && prerrequisitos.every(prereqId => rendidasActuales.includes(prereqId));
                         const noTienePrerrequisitos = prerrequisitos.length === 0;
 
-                        if (noTienePrerrequisitos || todosPrerrequisitosRendidos) {
-                            // Si se puede cursar (no tiene prerrequisitos o todos sus prerrequisitos están rendidos)
+                        // LÓGICA DE COLOR FINAL:
+                        if (todosPrerrequisitosRendidos) {
+                            // SI NO ESTÁ RENDIDA Y TODOS SUS PRERREQUISITOS ESTÁN CUMPLIDOS (y tiene prerrequisitos): ROSA
                             slot.classList.add('disponible');
                         } else {
-                            // Si no se puede cursar aún
+                            // EN CUALQUIER OTRO CASO (no rendida, sin prerrequisitos, o con prerrequisitos pendientes): GRIS CLARO
                             slot.classList.add('no-disponible');
                         }
                     }
@@ -69,7 +66,34 @@ document.addEventListener('DOMContentLoaded', function() {
                     const asignatura = asignaturasById[id];
 
                     if (asignatura) { // Asegurarse de que sea una asignatura válida y no un empty-slot
-                        asignatura.rendida = !asignatura.rendida; // Alternar el estado 'rendida'
+                        if (asignatura.rendida) {
+                            // Si está rendida, al hacer clic, se marca como NO rendida.
+                            asignatura.rendida = false;
+                        } else {
+                            // Si NO está rendida, verificamos si es clickeable para rendir.
+                            const prerrequisitos = relacionesData
+                                .filter(rel => rel.target === id)
+                                .map(rel => rel.source);
+
+                            const rendidasActuales = Object.values(asignaturasById)
+                                                         .filter(a => a.rendida)
+                                                         .map(a => a.id);
+
+                            const todosPrerrequisitosRendidos = prerrequisitos.length > 0 && prerrequisitos.every(prereqId => rendidasActuales.includes(prereqId));
+                            const noTienePrerrequisitos = prerrequisitos.length === 0;
+
+                            if (noTienePrerrequisitos || todosPrerrequisitosRendidos) {
+                                // Solo se puede "rendir" si no tiene prerrequisitos o si ya se cumplieron.
+                                asignatura.rendida = true;
+                            } else {
+                                // Retroalimentación si intenta clickear una no disponible
+                                console.log(`No puedes rendir ${asignatura.nombre} aún. Faltan prerrequisitos.`);
+                                this.classList.add('shake');
+                                setTimeout(() => {
+                                    this.classList.remove('shake');
+                                }, 500);
+                            }
+                        }
                         actualizarEstadoMalla(); // Volver a actualizar toda la malla después del cambio
                     }
                 });
