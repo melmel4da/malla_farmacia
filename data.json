@@ -1,87 +1,109 @@
 {
   "asignaturas": [
-    { "id": "QUI101", "nombre": "Química general I", "rendida": false },
-    { "id": "MAT101", "nombre": "Matemática I", "rendida": false },
-    { "id": "BIO101", "nombre": "Biología celular", "rendida": false },
-    { "id": "MEC101", "nombre": "Mecánica y calor", "rendida": false },
-    { "id": "ORI101", "nombre": "Orientación profesional", "rendida": false },
-    { "id": "QUI201", "nombre": "Química general II", "rendida": false },
-    { "id": "MAT201", "nombre": "Matemática II", "rendida": false },
-    { "id": "BIO201", "nombre": "Biología integral", "rendida": false },
-    { "id": "OPT201", "nombre": "Óptica y electromagnetismo", "rendida": false },
-    { "id": "FIS301", "nombre": "Elementos de fisicoquímica", "rendida": false },
-    { "id": "ANA301", "nombre": "Química analítica", "rendida": false },
-    { "id": "ORG301", "nombre": "Química orgánica I", "rendida": false },
-    { "id": "HIS301", "nombre": "Histología humana", "rendida": false },
-    { "id": "COM301", "nombre": "Complementaria", "rendida": false },
-    { "id": "INS401", "nombre": "Análisis instrumental", "rendida": false },
-    { "id": "ORG401", "nombre": "Química orgánica II", "rendida": false },
-    { "id": "BIOE401", "nombre": "Bioestadística", "rendida": false },
-    { "id": "ANA401", "nombre": "Anatomía", "rendida": false },
-    { "id": "MED501", "nombre": "Análisis de medicamentos I", "rendida": false },
-    { "id": "BIOQ501", "nombre": "Bioquímica", "rendida": false },
-    { "id": "FARMA501", "nombre": "Farmacognosia", "rendida": false },
-    { "id": "FISIO501", "nombre": "Fisiología", "rendida": false },
-    { "id": "FARMC601", "nombre": "Farmacoquímica", "rendida": false },
-    { "id": "MICR601", "nombre": "Microbiología", "rendida": false },
-    { "id": "FARMCD601", "nombre": "Farmacodinamia", "rendida": false },
-    { "id": "FISIP601", "nombre": "Fisiopatología", "rendida": false },
-    { "id": "PRA701", "nombre": "Práctica preliminar farmacia privada", "rendida": false },
-    { "id": "FARMC702", "nombre": "Farmacoquímica II", "rendida": false },
-    { "id": "FARMCD702", "nombre": "Farmacodinamia II", "rendida": false },
-    { "id": "TEC701", "nombre": "Tecnología farmacéutica I", "rendida": false },
-    { "id": "PARA701", "nombre": "Parasitología", "rendida": false },
-    { "id": "SALU701", "nombre": "Salud y comunidad", "rendida": false },
-    { "id": "FARMC801", "nombre": "Farmacia clínica", "rendida": false },
-    { "id": "TEC802", "nombre": "Tecnología farmacéutica II", "rendida": false },
-    { "id": "BIOQC801", "nombre": "Bioquímica clínica", "rendida": false },
-    { "id": "TOX801", "nombre": "Toxicología", "rendida": false },
-    { "id": "PRA901", "nombre": "Práctica intermedia farmacia privada", "rendida": false },
-    { "id": "FARMC902", "nombre": "Farmacia clínica II", "rendida": false },
-    { "id": "LEG901", "nombre": "Legislación farmacéutica", "rendida": false },
-    { "id": "BIOF901", "nombre": "Biofarmacia", "rendida": false },
-    { "id": "NUT901", "nombre": "Nutrición", "rendida": false },
-    { "id": "BROM901", "nombre": "Bromatología", "rendida": false },
-    { "id": "FARMC1001", "nombre": "Farmacia clínica III", "rendida": false },
-    { "id": "ADM1001", "nombre": "Administración farmacéutica", "rendida": false },
-    { "id": "ELECT1001", "nombre": "Electiva", "rendida": false },
-    { "id": "PRA1101", "nombre": "Práctica terminal farmacia privada", "rendida": false },
-    { "id": "PRA1102", "nombre": "Práctica farmacia asistencial", "rendida": false },
-    { "id": "HAB1101", "nombre": "Habilitación profesional", "rendida": false },
-    { "id": "EXA1101", "nombre": "Examen de título", "rendida": false }
+    {"id": "QUI101", "nombre": "Química general I", "semestre": 1, "rendida": false},
+    {"id": "MAT101", "nombre": "Matemática I", "semestre": 1, "rendida": false},
+    {"id": "BIO101", "nombre": "Biología celular", "semestre": 1, "rendida": false},
+    {"id": "MEC101", "nombre": "Mecánica y calor", "semestre": 1, "rendida": false},
+    {"id": "ORI101", "nombre": "Orientación profesional", "semestre": 1, "rendida": false},
+    
+    {"id": "QUI201", "nombre": "Química general II", "semestre": 2, "rendida": false},
+    {"id": "MAT201", "nombre": "Matemática II", "semestre": 2, "rendida": false},
+    {"id": "BIO201", "nombre": "Biología integral", "semestre": 2, "rendida": false},
+    {"id": "OPT201", "nombre": "Óptica y electromagnetismo", "semestre": 2, "rendida": false},
+
+    {"id": "FIS301", "nombre": "Elementos de fisicoquímica", "semestre": 3, "rendida": false},
+    {"id": "ANA301", "nombre": "Química analítica", "semestre": 3, "rendida": false},
+    {"id": "ORG301", "nombre": "Química orgánica I", "semestre": 3, "rendida": false},
+    {"id": "HIS301", "nombre": "Histología humana", "semestre": 3, "rendida": false},
+    {"id": "COM301", "nombre": "Complementaria", "semestre": 3, "rendida": false},
+
+    {"id": "INS401", "nombre": "Análisis instrumental", "semestre": 4, "rendida": false},
+    {"id": "ORG401", "nombre": "Química orgánica II", "semestre": 4, "rendida": false},
+    {"id": "BIOE401", "nombre": "Bioestadística", "semestre": 4, "rendida": false},
+    {"id": "ANA401", "nombre": "Anatomía", "semestre": 4, "rendida": false},
+
+    {"id": "MED501", "nombre": "Análisis de medicamentos I", "semestre": 5, "rendida": false},
+    {"id": "BIOQ501", "nombre": "Bioquímica", "semestre": 5, "rendida": false},
+    {"id": "FARMA501", "nombre": "Farmacognosia", "semestre": 5, "rendida": false},
+    {"id": "FISIO501", "nombre": "Fisiología", "semestre": 5, "rendida": false},
+
+    {"id": "FARMC601", "nombre": "Farmacoquímica", "semestre": 6, "rendida": false},
+    {"id": "MICR601", "nombre": "Microbiología", "semestre": 6, "rendida": false},
+    {"id": "FARMCD601", "nombre": "Farmacodinamia", "semestre": 6, "rendida": false},
+    {"id": "FISIP601", "nombre": "Fisiopatología", "semestre": 6, "rendida": false},
+
+    {"id": "PRA701", "nombre": "Práctica preliminar farmacia privada", "semestre": 7, "rendida": false},
+    {"id": "FARMC702", "nombre": "Farmacoquímica II", "semestre": 7, "rendida": false},
+    {"id": "FARMCD702", "nombre": "Farmacodinamia II", "semestre": 7, "rendida": false},
+    {"id": "TEC701", "nombre": "Tecnología farmacéutica I", "semestre": 7, "rendida": false},
+    {"id": "PARA701", "nombre": "Parasitología", "semestre": 7, "rendida": false},
+    {"id": "SALU701", "nombre": "Salud y comunidad", "semestre": 7, "rendida": false},
+
+    {"id": "FARMC801", "nombre": "Farmacia clínica", "semestre": 8, "rendida": false},
+    {"id": "TEC802", "nombre": "Tecnología farmacéutica II", "semestre": 8, "rendida": false},
+    {"id": "BIOQC801", "nombre": "Bioquímica clínica", "semestre": 8, "rendida": false},
+    {"id": "TOX801", "nombre": "Toxicología", "semestre": 8, "rendida": false},
+
+    {"id": "PRA901", "nombre": "Práctica intermedia farmacia privada", "semestre": 9, "rendida": false},
+    {"id": "FARMC902", "nombre": "Farmacia clínica II", "semestre": 9, "rendida": false},
+    {"id": "LEG901", "nombre": "Legislación farmacéutica", "semestre": 9, "rendida": false},
+    {"id": "BIOF901", "nombre": "Biofarmacia", "semestre": 9, "rendida": false},
+    {"id": "NUT901", "nombre": "Nutrición", "semestre": 9, "rendida": false},
+    {"id": "BROM901", "nombre": "Bromatología", "semestre": 9, "rendida": false},
+
+    {"id": "FARMC1001", "nombre": "Farmacia clínica III", "semestre": 10, "rendida": false},
+    {"id": "ADM1001", "nombre": "Administración farmacéutica", "semestre": 10, "rendida": false},
+    {"id": "ELECT1001", "nombre": "Electiva", "semestre": 10, "rendida": false},
+
+    {"id": "PRA1101", "nombre": "Práctica terminal farmacia privada", "semestre": 11, "rendida": false},
+    {"id": "PRA1102", "nombre": "Práctica farmacia asistencial", "semestre": 11, "rendida": false},
+    {"id": "HAB1101", "nombre": "Habilitación profesional", "semestre": 11, "rendida": false},
+    {"id": "EXA1101", "nombre": "Examen de título", "semestre": 11, "rendida": false}
   ],
   "relaciones": [
     { "source": "QUI101", "target": "QUI201" },
     { "source": "MAT101", "target": "MAT201" },
     { "source": "BIO101", "target": "BIO201" },
     { "source": "MEC101", "target": "OPT201" },
+
     { "source": "QUI101", "target": "FIS301" },
     { "source": "QUI201", "target": "FIS301" },
     { "source": "MAT101", "target": "FIS301" },
     { "source": "MAT201", "target": "FIS301" },
+
     { "source": "QUI101", "target": "ANA301" },
     { "source": "QUI201", "target": "ANA301" },
+
     { "source": "QUI101", "target": "ORG301" },
     { "source": "QUI201", "target": "ORG301" },
+
     { "source": "BIO101", "target": "HIS301" },
     { "source": "BIO201", "target": "HIS301" },
+
     { "source": "OPT201", "target": "INS401" },
     { "source": "ANA301", "target": "INS401" },
     { "source": "ORG301", "target": "INS401" },
-    { "source": "BIOE401", "target": "INS401" },
+    { "source": "BIOE401", "target": "INS401" },  
+
     { "source": "ORG301", "target": "ORG401" },
+
     { "source": "MAT101", "target": "BIOE401" },
     { "source": "MAT201", "target": "BIOE401" },
+
     { "source": "BIO101", "target": "ANA401" },
     { "source": "BIO201", "target": "ANA401" },
+
     { "source": "INS401", "target": "MED501" },
     { "source": "ORG401", "target": "MED501" },
+
     { "source": "BIO101", "target": "BIOQ501" },
     { "source": "BIO201", "target": "BIOQ501" },
     { "source": "ORG401", "target": "BIOQ501" },
+
     { "source": "INS401", "target": "FARMA501" },
     { "source": "ORG401", "target": "FARMA501" },
     { "source": "BIO201", "target": "FARMA501" },
+
     { "source": "QUI101", "target": "FISIO501" },
     { "source": "QUI201", "target": "FISIO501" },
     { "source": "BIO101", "target": "FISIO501" },
@@ -89,60 +111,83 @@
     { "source": "OPT201", "target": "FISIO501" },
     { "source": "HIS301", "target": "FISIO501" },
     { "source": "ANA401", "target": "FISIO501" },
-    { "source": "BIOE401", "target": "FISIO501" },
+    { "source": "BIOE401", "target": "FISIO501" }, 
+
     { "source": "MED501", "target": "FARMC601" },
     { "source": "FARMA501", "target": "FARMC601" },
-    { "source": "MICR601", "target": "FARMC601" },
-    { "source": "FARMCD601", "target": "FARMC601" },
+    
+
     { "source": "BIOQ501", "target": "MICR601" },
     { "source": "FISIO501", "target": "MICR601" },
+
     { "source": "BIOQ501", "target": "FARMCD601" },
     { "source": "FISIO501", "target": "FARMCD601" },
+
     { "source": "BIOQ501", "target": "FISIP601" },
     { "source": "FISIO501", "target": "FISIP601" },
+
     { "source": "FARMC601", "target": "PRA701" },
     { "source": "FARMCD601", "target": "PRA701" },
+
     { "source": "FARMC601", "target": "FARMC702" },
-    { "source": "FARMCD702", "target": "FARMC702" },
+    
+
     { "source": "FARMCD601", "target": "FARMCD702" },
+
     { "source": "FIS301", "target": "TEC701" },
     { "source": "FARMA501", "target": "TEC701" },
     { "source": "MICR601", "target": "TEC701" },
+
     { "source": "FISIO501", "target": "PARA701" },
+
     { "source": "BIOE401", "target": "SALU701" },
     { "source": "MICR601", "target": "SALU701" },
+
     { "source": "MICR601", "target": "FARMC801" },
     { "source": "FISIP601", "target": "FARMC801" },
     { "source": "FARMC702", "target": "FARMC801" },
     { "source": "FARMCD702", "target": "FARMC801" },
+
     { "source": "TEC701", "target": "TEC802" },
+
     { "source": "ORG301", "target": "BIOQC801" },
     { "source": "INS401", "target": "BIOQC801" },
     { "source": "BIOQ501", "target": "BIOQC801" },
     { "source": "FISIO501", "target": "BIOQC801" },
+
     { "source": "BIOQ501", "target": "TOX801" },
     { "source": "FISIO501", "target": "TOX801" },
     { "source": "FARMC702", "target": "TOX801" },
     { "source": "FARMCD702", "target": "TOX801" },
+
     { "source": "PRA701", "target": "PRA901" },
     { "source": "FARMC702", "target": "PRA901" },
     { "source": "FARMCD702", "target": "PRA901" },
     { "source": "FARMC801", "target": "PRA901" },
     { "source": "TEC802", "target": "PRA901" },
+
     { "source": "FARMC801", "target": "FARMC902" },
+
     { "source": "TEC802", "target": "LEG901" },
+
     { "source": "TEC802", "target": "BIOF901" },
+
     { "source": "BIOQ501", "target": "NUT901" },
     { "source": "FISIO501", "target": "NUT901" },
+
     { "source": "INS401", "target": "BROM901" },
     { "source": "MICR601", "target": "BROM901" },
+
     { "source": "FARMC801", "target": "FARMC1001" },
     { "source": "FARMC902", "target": "FARMC1001" },
+
     { "source": "LEG901", "target": "ADM1001" },
+
     { "source": "PRA901", "target": "PRA1101" },
     { "source": "BIOF901", "target": "PRA1101" },
     { "source": "FARMC1001", "target": "PRA1101" },
     { "source": "ADM1001", "target": "PRA1101" },
+
     { "source": "FARMC902", "target": "PRA1102" }
   ]
 }
