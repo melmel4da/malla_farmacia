@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 asignaturasById[asignatura.id] = asignatura;
             });
 
-            // 3. Obtenemos todos los elementos HTML de las asignaturas
+            // 3. Obtenemos todos los elementos HTML de las asignaturas con un data-id
             const materiaSlots = document.querySelectorAll('.materia-slot[data-id]');
 
-            // 4. Función para actualizar el estado visual de todas las asignaturas
+            // 4. Función principal para actualizar el estado visual de todas las asignaturas
             function actualizarEstadoMalla() {
                 // Obtener todos los IDs de las asignaturas que están marcadas como rendidas actualmente
                 const rendidasActuales = [];
@@ -36,11 +36,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         return;
                     }
 
-                    // Remover clases de estado anteriores
+                    // Remover clases de estado anteriores para evitar conflictos
                     slot.classList.remove('rendida', 'disponible', 'no-disponible');
 
                     if (asignatura.rendida) {
-                        // Si la asignatura está rendida, le asignamos la clase 'rendida'
+                        // Si la asignatura está rendida
                         slot.classList.add('rendida');
                     } else {
                         // Si no está rendida, verificamos si está disponible para cursar
@@ -52,25 +52,25 @@ document.addEventListener('DOMContentLoaded', function() {
                         const noTienePrerrequisitos = prerrequisitos.length === 0;
 
                         if (noTienePrerrequisitos || todosPrerrequisitosRendidos) {
-                            // Si se puede cursar, le asignamos la clase 'disponible'
+                            // Si se puede cursar (no tiene prerrequisitos o todos sus prerrequisitos están rendidos)
                             slot.classList.add('disponible');
                         } else {
-                            // Si no se puede cursar aún, le asignamos la clase 'no-disponible'
+                            // Si no se puede cursar aún
                             slot.classList.add('no-disponible');
                         }
                     }
                 });
             }
 
-            // 5. Añadir un 'EventListener' a cada slot de materia para el click
+            // 5. Añadir un 'EventListener' a cada slot de materia para el evento 'click'
             materiaSlots.forEach(slot => {
                 slot.addEventListener('click', function() {
                     const id = this.dataset.id; // Obtener el ID de la asignatura desde el atributo data-id
                     const asignatura = asignaturasById[id];
 
-                    if (asignatura) { // Asegurarse de que sea una asignatura válida
+                    if (asignatura) { // Asegurarse de que sea una asignatura válida y no un empty-slot
                         asignatura.rendida = !asignatura.rendida; // Alternar el estado 'rendida'
-                        actualizarEstadoMalla(); // Volver a actualizar toda la malla
+                        actualizarEstadoMalla(); // Volver a actualizar toda la malla después del cambio
                     }
                 });
             });
