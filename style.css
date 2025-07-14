@@ -2,7 +2,7 @@
 :root {
     /* Colores para las asignaturas, basados en la malla de Psicología */
     --materia-rendida-bg: #8B6D9C; /* Morado de la malla de Psicología para rendidas */
-    --materia-disponible-bg: #FF69B4; /* ROSA para materias DISPONIBLES */
+    --materia-disponible-bg: #C43670; /* RASPBERRY ROSE para materias DISPONIBLES */
     --materia-no-disponible-bg: #F0F0F0; /* Gris muy claro de la malla de Psicología para no disponibles */
     --materia-no-disponible-border: #CCCCCC; /* Borde gris claro para no disponibles */
 
@@ -51,23 +51,23 @@ body {
 }
 
 #malla-curricular-container {
-    max-width: 1400px;
-    margin: 0 auto;
+    max-width: 1400px; /* Ancho máximo para la malla */
+    margin: 0 auto; /* Centrar */
     background-color: var(--malla-bg-color); /* Fondo claro de la malla */
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    padding: 10px; 
+    padding: 10px; /* Padding interno */
     display: grid;
-    /* 1 columna para el "row-label" (si se usa) y 11 columnas para los semestres */
-    grid-template-columns: minmax(20px, 0.1fr) repeat(11, 1fr); 
+    /* REAJUSTE CLAVE AQUÍ: Primera columna pequeña, luego 11 columnas iguales */
+    grid-template-columns: 30px repeat(11, 1fr); 
     gap: 6px; /* Espacio entre celdas */
-    overflow-x: auto; 
+    overflow-x: auto; /* Permite scroll horizontal si la pantalla es pequeña */
     border: 1px solid var(--border-general); /* Borde alrededor de toda la malla */
 }
 
 /* Estilos para encabezados de años y semestres */
 .malla-header-row {
-    display: contents; 
+    display: contents; /* Permite que los hijos se posicionen directamente en el grid */
 }
 
 .header-cell {
@@ -76,16 +76,18 @@ body {
     text-align: center;
     font-weight: bold;
     border: 1px solid var(--border-general);
-    white-space: nowrap; 
+    white-space: nowrap; /* Evita saltos de línea en los títulos */
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 0.9em;
-    display: flex; 
+    display: flex; /* Para centrar contenido */
     align-items: center;
     justify-content: center;
 }
 
 .empty-header-cell {
+    /* La primera celda en la fila de años y semestres que alinea con el 'row-label' */
+    grid-column: 1; /* Asegura que ocupe la primera columna */
     background-color: transparent;
     border: none;
 }
@@ -97,15 +99,27 @@ body {
     padding: 15px 5px;
 }
 /* Posicionamiento específico de cada año en la cuadrícula */
-.year-1 { grid-column: 2 / span 2; } 
-.year-2 { grid-column: 4 / span 2; }
-.year-3 { grid-column: 6 / span 2; }
-.year-4 { grid-column: 8 / span 2; }
-.year-5 { grid-column: 10 / span 2; }
-.year-6 { grid-column: 12 / span 1; } 
+.year-1 { grid-column: 2 / span 2; } /* SEM 1, 2 */
+.year-2 { grid-column: 4 / span 2; } /* SEM 3, 4 */
+.year-3 { grid-column: 6 / span 2; } /* SEM 5, 6 */
+.year-4 { grid-column: 8 / span 2; } /* SEM 7, 8 */
+.year-5 { grid-column: 10 / span 2; } /* SEM 9, 10 */
+.year-6 { grid-column: 12 / span 1; } /* SEM 11 (solo un semestre) */
 
 
 /* Estilos para las celdas de las asignaturas */
+.malla-row {
+    display: contents; /* Los slots se convierten en ítems directos del grid */
+}
+
+.row-label {
+    /* Esta celda es la primera en cada fila de asignaturas */
+    grid-column: 1; /* Asegura que ocupe la primera columna */
+    min-height: 85px; /* Mantiene la altura de la fila */
+    background-color: transparent; /* No tiene fondo ni borde visible */
+    border: none;
+}
+
 .materia-slot {
     background-color: var(--materia-no-disponible-bg); /* Fondo gris claro por defecto */
     border: 2px solid var(--materia-no-disponible-border); /* Borde gris claro por defecto */
@@ -124,6 +138,7 @@ body {
     min-height: 85px; 
     box-sizing: border-box; 
     line-height: 1.2; 
+    min-width: 80px; /* Asegura un ancho mínimo para que no se aplasten */
 }
 
 .materia-slot:hover {
@@ -145,8 +160,8 @@ body {
 }
 
 .materia-slot.disponible {
-    background-color: var(--materia-disponible-bg);  /* ROSA */
-    border-color: var(--materia-disponible-bg);      /* Borde rosa */
+    background-color: var(--materia-disponible-bg);  /* RASPBERRY ROSE */
+    border-color: var(--materia-disponible-bg);      /* Borde RASPBERRY ROSE */
     color: var(--text-light);               /* Texto blanco */
 }
 
