@@ -3,13 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malla Curricular Interactiva</title>
+    <title>Malla Curricular Química y Farmacia</title>
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 </head>
 <body>
-    <h1>Malla Curricular - ¡Marca tu Progreso!</h1>
-    <div id="mynetwork"></div>
+    <div class="header-container">
+        <img src="https://www.udec.cl/pexternal/assets/Logo_UdeC_azul.png" alt="Logo Universidad de Concepción" class="udec-logo">
+        <h1>QUÍMICA Y FARMACIA</h1>
+        <p>FACULTAD DE FARMACIA</p>
+    </div>
+    
+    <div id="malla-container">
+        <div class="semestre-headers">
+            <div class="semestre-col">1° AÑO</div>
+            <div class="semestre-col">2° AÑO</div>
+            <div class="semestre-col">3° AÑO</div>
+            <div class="semestre-col">4° AÑO</div>
+            <div class="semestre-col">5° AÑO</div>
+            <div class="semestre-col">6° AÑO</div>
+        </div>
+        <div class="semestre-headers">
+            <div class="semestre-sub-col">SEM I</div>
+            <div class="semestre-sub-col">SEM II</div>
+            <div class="semestre-sub-col">SEM III</div>
+            <div class="semestre-sub-col">SEM IV</div>
+            <div class="semestre-sub-col">SEM V</div>
+            <div class="semestre-sub-col">SEM VI</div>
+            <div class="semestre-sub-col">SEM VII</div>
+            <div class="semestre-sub-col">SEM VIII</div>
+            <div class="semestre-sub-col">SEM IX</div>
+            <div class="semestre-sub-col">SEM X</div>
+            <div class="semestre-sub-col">SEM XI</div>
+        </div>
+        
+        <div id="mynetwork"></div>
+    </div>
 
     <script src="script.js"></script>
 </body>
