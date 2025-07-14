@@ -57,19 +57,22 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     padding: 10px; /* Padding interno */
-    display: grid;
-    /* REAJUSTE CLAVE AQUÍ: Primera columna pequeña, luego 11 columnas iguales */
-    grid-template-columns: 30px repeat(11, 1fr); 
-    gap: 6px; /* Espacio entre celdas */
+    display: flex; /* CAMBIO CLAVE: Usamos flexbox para las filas principales */
+    flex-direction: column; /* Apilamos las filas verticalmente */
+    gap: 6px; /* Espacio entre las filas */
     overflow-x: auto; /* Permite scroll horizontal si la pantalla es pequeña */
     border: 1px solid var(--border-general); /* Borde alrededor de toda la malla */
 }
 
-/* Estilos para encabezados de años y semestres */
-.malla-header-row {
-    display: contents; /* Permite que los hijos se posicionen directamente en el grid */
+/* NUEVA CLASE PARA CADA FILA (Encabezados y Asignaturas) */
+.malla-grid-row {
+    display: flex; /* Hace que los elementos dentro de la fila se dispongan horizontalmente */
+    flex-basis: 0; /* Asegura que no tengan un tamaño inicial fijo */
+    flex-grow: 1; /* Permite que crezcan para llenar el espacio disponible */
+    gap: 6px; /* Espacio entre las celdas dentro de la fila */
 }
 
+/* Estilos para encabezados de años y semestres */
 .header-cell {
     background-color: var(--semester-header-bg); /* Fondo más claro para los headers */
     padding: 10px 5px;
@@ -83,13 +86,15 @@ body {
     display: flex; /* Para centrar contenido */
     align-items: center;
     justify-content: center;
+    flex: 1; /* Hace que cada celda de semestre ocupe el mismo espacio */
 }
 
 .empty-header-cell {
-    /* La primera celda en la fila de años y semestres que alinea con el 'row-label' */
-    grid-column: 1; /* Asegura que ocupe la primera columna */
+    width: 30px; /* Ancho fijo para la celda vacía de alineación */
+    min-width: 30px; /* Asegura que no se contraiga */
     background-color: transparent;
     border: none;
+    flex-shrink: 0; /* Evita que se encoja */
 }
 
 /* Ajustes de columnas para los encabezados de AÑO */
@@ -98,10 +103,88 @@ body {
     font-size: 1.1em;
     padding: 15px 5px;
 }
-/* Posicionamiento específico de cada año en la cuadrícula */
-.year-1 { grid-column: 2 / span 2; } /* SEM 1, 2 */
-.year-2 { grid-column: 4 / span 2; } /* SEM 3, 4 */
-.year-3 { grid-column: 6 / span 2; } /* SEM 5, 6 */
-.year-4 { grid-column: 8 / span 2; } /* SEM 7, 8 */
-.year-5 { grid-column: 10 / span 2; } /* SEM 9, 10 */
-.year-6 { grid-column: 12 / span 1; } /* SEM 11 (solo un semestre
+/* Flexbox usa 'flex-grow' en lugar de 'grid-column' */
+/* Por cada año que abarca 2 semestres, su flex-grow es 2 */
+.year-headers .year-1 { flex: 2; } /* Abarca SEM 1, 2 */
+.year-headers .year-2 { flex: 2; } /* Abarca SEM 3, 4 */
+.year-headers .year-3 { flex: 2; } /* Abarca SEM 5, 6 */
+.year-headers .year-4 { flex: 2; } /* Abarca SEM 7, 8 */
+.year-headers .year-5 { flex: 2; } /* Abarca SEM 9, 10 */
+.year-headers .year-6 { flex: 1; } /* Abarca SEM 11 (solo un semestre) */
+
+
+/* Estilos para las celdas de las asignaturas */
+.row-label {
+    width: 30px; /* Ancho fijo para la primera columna de la fila */
+    min-width: 30px; /* Asegura que no se contraiga */
+    min-height: 85px; /* Mantiene la altura de la fila */
+    background-color: transparent; /* No tiene fondo ni borde visible */
+    border: none;
+    flex-shrink: 0; /* Evita que se encoja */
+}
+
+.materia-slot {
+    background-color: var(--materia-no-disponible-bg); /* Fondo gris claro por defecto */
+    border: 2px solid var(--materia-no-disponible-border); /* Borde gris claro por defecto */
+    color: var(--text-dark);
+    padding: 8px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; 
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.08); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 0.8em; 
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 85px; 
+    box-sizing: border-box; 
+    line-height: 1.2; 
+    flex: 1; /* Hace que cada asignatura ocupe el mismo espacio */
+    min-width: 80px; /* Asegura un ancho mínimo para que no se aplasten */
+}
+
+.materia-slot:hover {
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px); 
+}
+
+.materia-name {
+    display: block; 
+    word-wrap: break-word; 
+    width: 100%; 
+}
+
+/* CLASES PARA LOS ESTADOS DE LAS ASIGNATURAS (aplicadas por JavaScript) */
+.materia-slot.rendida {
+    background-color: var(--materia-rendida-bg); /* Morado de la malla de Psicología */
+    border-color: var(--materia-rendida-bg);     /* Borde morado */
+    color: var(--text-light);               /* Texto blanco */
+}
+
+.materia-slot.disponible {
+    background-color: var(--materia-disponible-bg);  /* RASPBERRY ROSE */
+    border-color: var(--materia-disponible-bg);      /* Borde RASPBERRY ROSE */
+    color: var(--text-light);               /* Texto blanco */
+}
+
+.materia-slot.no-disponible {
+    background-color: var(--materia-no-disponible-bg); /* Fondo Gris Claro */
+    border-color: var(--materia-no-disponible-border); /* Borde Gris Claro */
+    color: var(--text-dark);                          /* Texto oscuro */
+}
+
+/* Estilos para celdas vacías, que no representan una asignatura */
+.materia-slot.empty-slot {
+    background-color: transparent;
+    border: none;
+    cursor: default;
+    box-shadow: none;
+    flex: 1; /* Las celdas vacías también ocupan su espacio */
+    min-width: 80px; /* Asegura que tengan el mismo ancho mínimo */
+}
+.materia-slot.empty-slot:hover {
+    transform: none;
+    box-shadow: none;
+}
