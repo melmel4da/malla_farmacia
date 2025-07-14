@@ -1,12 +1,15 @@
 /* Paleta de Colores y Fuente */
 :root {
-    --royal-orange: #F3904B;
-    --orange-yellow-crayola: #F7C767;
-    --pastel-purple: #B89DBB;
-    --text-dark: #333;
-    --text-light: #fff;
-    --border-default: #ccc;
-    --can-take-border: var(--royal-orange); /* Borde Royal Orange para materias disponibles */
+    --royal-orange: #F3904B;       /* Para materias disponibles (borde/fondo) */
+    --pastel-purple: #B89DBB;      /* Para materias rendidas */
+    --light-gray-background: #F8F8F8; /* Fondo claro para la malla */
+    --box-background-default: #E0E0E0; /* Gris claro para materias no disponibles */
+    --text-dark: #333333;          /* Color de texto para materias no rendidas */
+    --text-light: #FFFFFF;         /* Color de texto para materias rendidas */
+    --border-color-default: #CCCCCC;
+    --header-bg: #F0F0F0;
+    --year-header-bg: #D0D0D0;
+    --main-blue-header: #1E90FF; /* Un azul para el header principal */
 }
 
 body {
@@ -18,7 +21,7 @@ body {
 }
 
 .header-container {
-    background-color: #004c8c; /* Azul oscuro de la UdeC */
+    background-color: var(--main-blue-header); /* Fondo azul para el encabezado principal */
     color: var(--text-light);
     padding: 20px 0;
     text-align: center;
@@ -28,133 +31,134 @@ body {
 
 .header-container h1 {
     margin: 0;
-    font-size: 2.5em;
-    letter-spacing: 2px;
-    font-weight: 700; /* Negrita para el título */
-    font-family: 'Segoe UI', Arial, sans-serif; /* Asegura Segoe UI para el título */
+    font-size: 2.8em; /* Tamaño del título principal */
+    letter-spacing: 1.5px;
+    font-weight: 700; /* Negrita */
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .header-container p {
     margin: 5px 0 0;
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-style: italic;
-    font-family: 'Segoe UI', Arial, sans-serif; /* Asegura Segoe UI para el subtítulo */
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 #malla-curricular-container {
-    max-width: 1400px; /* Ancho un poco más para acomodar más semestres */
-    margin: 0 auto;
-    background-color: #fff;
+    max-width: 1400px; /* Ancho máximo para la malla */
+    margin: 0 auto; /* Centrar */
+    background-color: var(--light-gray-background); /* Fondo de la malla */
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    padding: 20px;
-    display: grid; /* Usamos CSS Grid para la cuadrícula principal */
-    /* 12 columnas: 1 para el espacio inicial, y 11 para los semestres */
-    grid-template-columns: 80px repeat(11, 1fr); /* 80px para la primera columna, 11 columnas de igual ancho */
-    gap: 5px; /* Pequeño espacio entre celdas */
+    padding: 10px; /* Padding interno */
+    display: grid;
+    /* 1 columna para el "row-label" y 11 columnas para los semestres */
+    grid-template-columns: minmax(30px, 0.2fr) repeat(11, 1fr); 
+    gap: 8px; /* Espacio entre celdas */
+    overflow-x: auto; /* Permite scroll horizontal si la pantalla es pequeña */
+    border: 1px solid var(--border-color-default);
 }
 
 /* Estilos para encabezados de años y semestres */
 .malla-header-row {
-    display: contents; /* Hace que los hijos se comporten como si estuvieran directamente en el grid del padre */
+    display: contents; /* Permite que los hijos se posicionen directamente en el grid */
 }
 
 .header-cell {
-    background-color: #e0e0e0;
+    background-color: var(--header-bg);
     padding: 10px 5px;
     text-align: center;
     font-weight: bold;
-    border: 1px solid #d0d0d0;
-    white-space: nowrap; /* Evita que el texto se rompa */
+    border: 1px solid var(--border-color-default);
+    white-space: nowrap; /* Evita saltos de línea en los títulos */
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 0.9em;
+    display: flex; /* Para centrar contenido */
+    align-items: center;
+    justify-content: center;
 }
 
-.year-header {
-    grid-column: span 2; /* Cada año abarca 2 semestres (excepto el último) */
-    background-color: #c0c0c0; /* Fondo más oscuro para los años */
-    font-size: 1.1em;
-}
-
-/* Ajustes específicos para que los años abarquen los semestres correctos */
-.year-headers .header-cell:nth-child(2) { grid-column: 2 / span 2; } /* 1° Año: SEM I, II */
-.year-headers .header-cell:nth-child(3) { grid-column: 4 / span 2; } /* 2° Año: SEM III, IV */
-.year-headers .header-cell:nth-child(4) { grid-column: 6 / span 2; } /* 3° Año: SEM V, VI */
-.year-headers .header-cell:nth-child(5) { grid-column: 8 / span 2; } /* 4° Año: SEM VII, VIII */
-.year-headers .header-cell:nth-child(6) { grid-column: 10 / span 2; } /* 5° Año: SEM IX, X */
-.year-headers .header-cell:nth-child(7) { grid-column: 12 / span 1; } /* 6° Año: SEM XI (solo 1 semestre) */
-
-
-.semester-header {
-    background-color: #f0f0f0;
-    font-size: 0.85em;
-    grid-column: auto; /* Cada semestre en su propia columna */
-}
-
-.empty-cell {
-    /* Celdas vacías para mantener la alineación de la cuadrícula */
+.empty-header-cell {
     background-color: transparent;
     border: none;
 }
 
-/* Estilos para las filas de asignaturas */
+/* Ajustes de columnas para los encabezados de AÑO */
+.year-header {
+    background-color: var(--year-header-bg);
+    font-size: 1.1em;
+    padding: 15px 5px; /* Más padding para los encabezados de año */
+}
+/* Posicionamiento específico de cada año en la cuadrícula */
+.year-1 { grid-column: 2 / span 2; } /* SEM I, II */
+.year-2 { grid-column: 4 / span 2; } /* SEM III, IV */
+.year-3 { grid-column: 6 / span 2; } /* SEM V, VI */
+.year-4 { grid-column: 8 / span 2; } /* SEM VII, VIII */
+.year-5 { grid-column: 10 / span 2; } /* SEM IX, X */
+.year-6 { grid-column: 12 / span 1; } /* SEM XI (solo un semestre) */
+
+/* Estilos para las celdas de las asignaturas */
 .malla-row {
-    display: contents; /* Esto permite que los .materia-slot sean hijos directos del grid padre */
+    display: contents; /* Los slots se convierten en ítems directos del grid */
 }
 
 .row-label {
-    /* Si hubiera etiquetas de fila, aquí irían sus estilos */
-    min-height: 80px; /* Asegura que la fila tenga una altura mínima */
+    /* Si hubiera etiquetas de fila, irían aquí */
+    min-height: 80px; /* Altura mínima para la fila, si está vacía */
 }
 
 .materia-slot {
-    background-color: var(--orange-yellow-crayola); /* Color inicial de no cursada */
-    border: 2px solid var(--orange-yellow-crayola); /* Borde inicial del mismo color */
+    background-color: var(--box-background-default); /* Gris claro para no disponibles */
+    border: 2px solid var(--border-color-default); /* Borde por defecto */
+    color: var(--text-dark);
     padding: 8px;
     text-align: center;
     border-radius: 5px;
     cursor: pointer;
-    transition: all 0.2s ease-in-out; /* Transición suave para los cambios de color */
+    transition: all 0.2s ease-in-out; /* Animación suave */
     box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-    display: flex; /* Para centrar el texto verticalmente */
+    display: flex; /* Para centrar el texto */
     align-items: center; /* Centrado vertical */
     justify-content: center; /* Centrado horizontal */
-    font-size: 0.85em; /* Tamaño de fuente para la materia */
+    font-size: 0.8em; /* Tamaño de fuente para el contenido de la materia */
     font-family: 'Segoe UI', Arial, sans-serif;
-    min-height: 80px; /* Altura fija para todas las materias */
+    min-height: 85px; /* Altura fija de cada caja de asignatura */
     box-sizing: border-box; /* Incluye padding y border en el tamaño total */
+    line-height: 1.2; /* Espaciado entre líneas */
 }
 
 .materia-slot:hover {
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-    transform: translateY(-2px); /* Pequeño efecto al pasar el ratón */
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.25);
+    transform: translateY(-2px); /* Efecto "levantar" */
 }
 
 .materia-name {
-    display: block; /* Asegura que el span se comporte como un bloque */
-    word-wrap: break-word; /* Permite que el texto se ajuste si es muy largo */
+    display: block; /* Para que el texto ocupe su propio espacio */
+    word-wrap: break-word; /* Permite que el texto largo se rompa en varias líneas */
+    width: 100%; /* Asegura que el texto use todo el ancho disponible */
 }
 
-/* ESTADOS DE LAS ASIGNATURAS (manejados por JavaScript añadiendo estas clases) */
+/* CLASES PARA LOS ESTADOS DE LAS ASIGNATURAS (aplicadas por JavaScript) */
 .materia-slot.rendida {
-    background-color: var(--pastel-purple);
-    border-color: var(--pastel-purple);
-    color: var(--text-light); /* Texto blanco */
+    background-color: var(--pastel-purple); /* Fondo Púrpura Pastel */
+    border-color: var(--pastel-purple);     /* Borde Púrpura Pastel */
+    color: var(--text-light);               /* Texto blanco */
 }
 
 .materia-slot.disponible {
-    border-color: var(--can-take-border); /* Borde Royal Orange */
-    border-width: 3px; /* Borde más grueso */
+    background-color: var(--royal-orange);  /* Fondo Royal Orange */
+    border-color: var(--royal-orange);      /* Borde Royal Orange */
+    color: var(--text-light);               /* Texto blanco */
 }
 
 .materia-slot.no-disponible {
-    background-color: var(--orange-yellow-crayola);
-    border-color: var(--orange-yellow-crayola);
-    color: var(--text-dark);
+    background-color: var(--box-background-default); /* Fondo Gris Claro */
+    border-color: var(--border-color-default);       /* Borde Gris */
+    color: var(--text-dark);                         /* Texto oscuro */
 }
 
-/* Estilos para celdas vacías */
+/* Estilos para celdas vacías, que no representan una asignatura */
 .materia-slot.empty-slot {
     background-color: transparent;
     border: none;
