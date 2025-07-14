@@ -87,7 +87,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                 asignatura.rendida = true;
                             } else {
                                 // Retroalimentación si intenta clickear una no disponible
-                                console.log(`No puedes rendir ${asignatura.nombre} aún. Faltan prerrequisitos.`);
+                                const faltantes = prerrequisitos.filter(prereqId => !rendidasActuales.includes(prereqId));
+const nombresFaltantes = faltantes.map(id => asignaturasById[id]?.nombre || id);
+alert(`No puedes rendir "${asignatura.nombre}" aún.\nFaltan: ${nombresFaltantes.join(", ")}`);
+
                                 this.classList.add('shake');
                                 setTimeout(() => {
                                     this.classList.remove('shake');
