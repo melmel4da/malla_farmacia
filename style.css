@@ -1,4 +1,4 @@
-/* Paleta de Colores */
+/* Paleta de Colores y Fuente */
 :root {
     --royal-orange: #F3904B;
     --orange-yellow-crayola: #F7C767;
@@ -6,11 +6,11 @@
     --text-dark: #333;
     --text-light: #fff;
     --border-default: #ccc;
-    --can-take-border: #28a745; /* Un verde para el borde de desbloqueado */
+    --can-take-border: var(--royal-orange); /* Borde Royal Orange para materias disponibles */
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Prioriza Segoe UI, si no Arial */
     margin: 0;
     padding: 0;
     background-color: #f0f2f5;
@@ -18,7 +18,7 @@ body {
 }
 
 .header-container {
-    background-color: #004c8c; /* Azul oscuro similar al logo UdeC */
+    background-color: #004c8c; /* Azul oscuro de la UdeC */
     color: var(--text-light);
     padding: 20px 0;
     text-align: center;
@@ -26,82 +26,142 @@ body {
     margin-bottom: 20px;
 }
 
-.udec-logo {
-    max-height: 80px;
-    margin-bottom: 10px;
-}
-
 .header-container h1 {
     margin: 0;
     font-size: 2.5em;
     letter-spacing: 2px;
+    font-weight: 700; /* Negrita para el título */
+    font-family: 'Segoe UI', Arial, sans-serif; /* Asegura Segoe UI para el título */
 }
 
 .header-container p {
     margin: 5px 0 0;
     font-size: 1.2em;
     font-style: italic;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Asegura Segoe UI para el subtítulo */
 }
 
-#malla-container {
-    max-width: 1200px; /* Ancho máximo para la malla */
-    margin: 0 auto; /* Centrar en la página */
+#malla-curricular-container {
+    max-width: 1400px; /* Ancho un poco más para acomodar más semestres */
+    margin: 0 auto;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     padding: 20px;
+    display: grid; /* Usamos CSS Grid para la cuadrícula principal */
+    /* 12 columnas: 1 para el espacio inicial, y 11 para los semestres */
+    grid-template-columns: 80px repeat(11, 1fr); /* 80px para la primera columna, 11 columnas de igual ancho */
+    gap: 5px; /* Pequeño espacio entre celdas */
 }
 
-.semestre-headers {
-    display: flex;
-    justify-content: space-around;
-    font-weight: bold;
+/* Estilos para encabezados de años y semestres */
+.malla-header-row {
+    display: contents; /* Hace que los hijos se comporten como si estuvieran directamente en el grid del padre */
+}
+
+.header-cell {
+    background-color: #e0e0e0;
+    padding: 10px 5px;
     text-align: center;
-    margin-bottom: 5px;
-}
-
-.semestre-col {
-    flex-grow: 1;
-    padding: 8px 0;
-    background-color: #e0e0e0; /* Un gris claro */
-    border-right: 1px solid #d0d0d0;
-    font-size: 1.1em;
-}
-.semestre-col:last-child {
-    border-right: none;
-}
-
-.semestre-sub-col {
-    flex-grow: 1;
-    padding: 5px 0;
-    background-color: #f0f0f0; /* Otro gris claro */
-    border-right: 1px solid #e0e0e0;
+    font-weight: bold;
+    border: 1px solid #d0d0d0;
+    white-space: nowrap; /* Evita que el texto se rompa */
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 0.9em;
 }
-.semestre-sub-col:last-child {
-    border-right: none;
+
+.year-header {
+    grid-column: span 2; /* Cada año abarca 2 semestres (excepto el último) */
+    background-color: #c0c0c0; /* Fondo más oscuro para los años */
+    font-size: 1.1em;
 }
 
+/* Ajustes específicos para que los años abarquen los semestres correctos */
+.year-headers .header-cell:nth-child(2) { grid-column: 2 / span 2; } /* 1° Año: SEM I, II */
+.year-headers .header-cell:nth-child(3) { grid-column: 4 / span 2; } /* 2° Año: SEM III, IV */
+.year-headers .header-cell:nth-child(4) { grid-column: 6 / span 2; } /* 3° Año: SEM V, VI */
+.year-headers .header-cell:nth-child(5) { grid-column: 8 / span 2; } /* 4° Año: SEM VII, VIII */
+.year-headers .header-cell:nth-child(6) { grid-column: 10 / span 2; } /* 5° Año: SEM IX, X */
+.year-headers .header-cell:nth-child(7) { grid-column: 12 / span 1; } /* 6° Año: SEM XI (solo 1 semestre) */
 
-#mynetwork {
-    width: 100%;
-    height: 900px; /* Aumentado para acomodar más asignaturas verticalmente */
-    /* border: 1px solid var(--border-default); */ /* El borde ahora lo controlan los nodos */
-    background-color: #fff;
-    /* Elimina el box-shadow de aquí, el contenedor padre ya lo tiene */
+
+.semester-header {
+    background-color: #f0f0f0;
+    font-size: 0.85em;
+    grid-column: auto; /* Cada semestre en su propia columna */
 }
 
-/* Colores de los nodos controlados por script.js */
-/* vis.js renderiza los nodos en un canvas, por lo que estas clases CSS directas no aplican a los nodos mismos.
-   Los colores y bordes se definen directamente en el objeto 'node' en script.js usando las propiedades 'color' y 'borderWidth'. */
+.empty-cell {
+    /* Celdas vacías para mantener la alineación de la cuadrícula */
+    background-color: transparent;
+    border: none;
+}
 
-/* Estilos de los tooltips de vis.js para que combinen con la paleta */
-.vis-tooltip {
-    background-color: var(--orange-yellow-crayola) !important;
-    border: 1px solid var(--royal-orange) !important;
-    color: var(--text-dark) !important;
-    padding: 8px !important;
-    border-radius: 5px !important;
-    font-size: 0.9em !important;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2) !important;
+/* Estilos para las filas de asignaturas */
+.malla-row {
+    display: contents; /* Esto permite que los .materia-slot sean hijos directos del grid padre */
+}
+
+.row-label {
+    /* Si hubiera etiquetas de fila, aquí irían sus estilos */
+    min-height: 80px; /* Asegura que la fila tenga una altura mínima */
+}
+
+.materia-slot {
+    background-color: var(--orange-yellow-crayola); /* Color inicial de no cursada */
+    border: 2px solid var(--orange-yellow-crayola); /* Borde inicial del mismo color */
+    padding: 8px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; /* Transición suave para los cambios de color */
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    display: flex; /* Para centrar el texto verticalmente */
+    align-items: center; /* Centrado vertical */
+    justify-content: center; /* Centrado horizontal */
+    font-size: 0.85em; /* Tamaño de fuente para la materia */
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 80px; /* Altura fija para todas las materias */
+    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
+}
+
+.materia-slot:hover {
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px); /* Pequeño efecto al pasar el ratón */
+}
+
+.materia-name {
+    display: block; /* Asegura que el span se comporte como un bloque */
+    word-wrap: break-word; /* Permite que el texto se ajuste si es muy largo */
+}
+
+/* ESTADOS DE LAS ASIGNATURAS (manejados por JavaScript añadiendo estas clases) */
+.materia-slot.rendida {
+    background-color: var(--pastel-purple);
+    border-color: var(--pastel-purple);
+    color: var(--text-light); /* Texto blanco */
+}
+
+.materia-slot.disponible {
+    border-color: var(--can-take-border); /* Borde Royal Orange */
+    border-width: 3px; /* Borde más grueso */
+}
+
+.materia-slot.no-disponible {
+    background-color: var(--orange-yellow-crayola);
+    border-color: var(--orange-yellow-crayola);
+    color: var(--text-dark);
+}
+
+/* Estilos para celdas vacías */
+.materia-slot.empty-slot {
+    background-color: transparent;
+    border: none;
+    cursor: default;
+    box-shadow: none;
+}
+.materia-slot.empty-slot:hover {
+    transform: none;
+    box-shadow: none;
 }
