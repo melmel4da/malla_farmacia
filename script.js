@@ -1,37 +1,43 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Definición de colores de la paleta
+    const COLORS = {
+        RENDIDA: { background: '#B89DBB', border: '#B89DBB' }, // Pastel Purple
+        DISPONIBLE: { background: '#F7C767', border: '#F3904B' }, // Orange-Yellow (Crayola) con borde Royal Orange
+        NO_DISPONIBLE: { background: '#F7C767', border: '#F7C767' }, // Orange-Yellow (Crayola) para no cursadas y no disponibles
+        TEXTO_RENDIDA: 'white',
+        TEXTO_NO_RENDIDA: '#333' // Un gris oscuro para el texto
+    };
+
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
-            // Clona los datos para poder modificarlos sin afectar el original cargado
-            // Esto es importante porque el estado 'rendida' se actualizará en esta copia
             const asignaturasData = JSON.parse(JSON.stringify(data.asignaturas));
             const relacionesData = data.relaciones;
 
-            // Transforma los datos de asignaturas al formato que vis.js necesita (nodos)
             const nodes = asignaturasData.map(asignatura => ({
                 id: asignatura.id,
                 label: asignatura.nombre,
-                // Establece el color inicial basado en 'rendida'
-                // vis.js usa un objeto para background y border
-                color: asignatura.rendida ? { background: 'mediumpurple', border: 'mediumpurple' } : { background: 'lightskyblue', border: 'lightgray' },
-                font: { color: asignatura.rendida ? 'white' : 'black' },
-                shape: 'box', // Para que sean cajas
-                margin: 10 // Espaciado interno de la caja
+                // Color inicial basado en si está rendida o no
+                color: asignatura.rendida ? COLORS.RENDIDA : COLORS.NO_DISPONIBLE,
+                font: { color: asignatura.rendida ? COLORS.TEXTO_RENDIDA : COLORS.TEXTO_NO_RENDIDA },
+                shape: 'box',
+                margin: 10,
+                // Agregamos un 'title' para el tooltip al pasar el ratón, si quieres más detalles.
+                title: asignatura.nombre
             }));
 
-            // Transforma los datos de relaciones al formato que vis.js necesita (aristas/flechas)
             const edges = relacionesData.map(relacion => ({
                 from: relacion.source,
                 to: relacion.target,
-                arrows: 'to', // Dibuja una flecha al final
-                color: { color: '#848484' } // Color de las flechas
+                arrows: 'to',
+                color: { color: '#848484' }, // Color gris para las flechas
+                width: 1 // Ancho de la flecha
             }));
 
-            // Crea los conjuntos de datos de vis.js. Estos son 'observables' y vis.js reacciona a sus cambios.
             const nodesDataset = new vis.DataSet(nodes);
             const edgesDataset = new vis.DataSet(edges);
 
-            const container = document.getElementById('mynetwork'); // El <div> donde se dibujará la malla
+            const container = document.getElementById('mynetwork');
             const curriculumData = {
                 nodes: nodesDataset,
                 edges: edgesDataset
@@ -39,32 +45,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const options = {
                 nodes: {
-                    shape: 'box', // Asegura que todos los nodos sean cajas
-                    font: { size: 14, face: 'Arial' },
-                    borderWidth: 1 // Borde inicial
+                    shape: 'box',
+                    font: { size: 13, face: 'Arial' }, // Tamaño de fuente un poco más pequeño
+                    borderWidth: 2, // Borde inicial
+                    shadow: true, // Sombra para darle profundidad
+                    scaling: {
+                        label: {
+                            enabled: true,
+                            min: 12,
+                            max: 18
+                        }
+                    }
                 },
                 edges: {
-                    arrows: { to: { enabled: true, scaleFactor: 0.7 } }, // Flechas un poco más pequeñas
+                    arrows: { to: { enabled: true, scaleFactor: 0.7 } },
                     smooth: {
                         enabled: true,
-                        type: "diagonalCross", // Tipo de línea de la flecha para un aspecto limpio
+                        type: "diagonalCross", // Líneas más suaves
                         roundness: 0.5
-                    }
+                    },
+                    color: { inherit: 'from' }, // Las flechas pueden heredar color del nodo origen si quieres destacarlas
+                    width: 1.5 // Grosor de las líneas
                 },
                 layout: {
                     hierarchical: {
-                        direction: 'LR', // Diseño de izquierda a derecha (Left-Right)
-                        sortMethod: 'directed', // Ordena los nodos por sus dependencias
-                        levelSeparation: 150 // Espacio horizontal entre niveles (semestres)
+                        direction: 'LR', // De izquierda a derecha
+                        sortMethod: 'directed', // Ordena las materias por sus dependencias
+                        levelSeparation: 180, // Aumenta el espacio horizontal entre "semestres" para que no se superpongan
+                        nodeSpacing: 100, // Espacio vertical entre nodos del mismo nivel
+                        treeSpacing: 200, // Espacio entre árboles/ramas independientes
+                        blockShifting: false, // Desactiva el shifting para mantener la cuadrícula
+                        edgeMinimization: false, // Desactiva la minimización de bordes para una cuadrícula más clara
+                        parentCentralization: false // No centrar padres para mantener posición
                     }
                 },
                 physics: {
-                    enabled: false // Desactivamos la física para que los nodos no se muevan solos
+                    enabled: false // Esencial para mantener la disposición fija y "cuadriculada"
                 },
                 interaction: {
-                    dragNodes: true, // Permitir arrastrar nodos para reorganizar visualmente (no afecta la lógica)
-                    zoomView: true, // Permitir zoom con la rueda del ratón
-                    hover: true // Resaltar el nodo al pasar el ratón por encima
+                    dragNodes: true, // Se pueden arrastrar, pero volverán a su posición por el layout
+                    zoomView: true,
+                    hover: true,
+                    tooltipDelay: 300 // Retraso para que aparezca el tooltip
                 }
             };
 
@@ -72,95 +94,84 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // --- Funcionalidad de marcado y desbloqueo ---
 
-            // Función principal para verificar y actualizar el estado visual de las asignaturas
             function actualizarEstadoAsignaturas() {
-                // 1. Obtener la lista de todas las asignaturas que ya están marcadas como "rendidas"
                 const asignaturasRendidas = nodesDataset.get({
                     filter: function (node) {
-                        return node.color.background === 'mediumpurple'; // Filtra por el color de fondo púrpura
+                        return node.color.background === COLORS.RENDIDA.background;
                     }
-                }).map(node => node.id); // Solo nos interesa el ID de la asignatura rendida
+                }).map(node => node.id);
 
-                // 2. Iterar sobre cada nodo (asignatura) en la visualización
                 nodesDataset.forEach(node => {
-                    // Si la asignatura ya está marcada como rendida, no necesitamos recalcularla, salimos.
-                    if (node.color.background === 'mediumpurple') {
-                        return;
+                    const nodeId = node.id;
+                    // Si la asignatura ya está rendida, la mantenemos púrpura
+                    if (asignaturasRendidas.includes(nodeId)) {
+                        nodesDataset.update({
+                            id: nodeId,
+                            color: COLORS.RENDIDA,
+                            font: { color: COLORS.TEXTO_RENDIDA },
+                            borderWidth: 2,
+                            borderColor: COLORS.RENDIDA.border // Borde del mismo color que el fondo para rendidas
+                        });
+                        return; // Pasa a la siguiente asignatura
                     }
 
-                    const nodeId = node.id;
-                    // 3. Obtener todos los prerrequisitos (incluidos los correquisitos tratados como prerrequisitos)
-                    // para la asignatura actual (nodeId).
+                    // Para asignaturas no rendidas:
                     const prerrequisitos = relacionesData
-                        .filter(rel => rel.target === nodeId) // Filtra las relaciones donde esta asignatura es el 'target' (depende de)
-                        .map(rel => rel.source); // Obtiene el 'source' (el prerrequisito) de esas relaciones
+                        .filter(rel => rel.target === nodeId)
+                        .map(rel => rel.source);
 
-                    // 4. Verificar si TODOS los prerrequisitos de esta asignatura están en la lista de 'asignaturasRendidas'.
                     const todosPrerrequisitosRendidos = prerrequisitos.every(prereq => asignaturasRendidas.includes(prereq));
-
-                    // 5. Determinar si la asignatura no tiene prerrequisitos (es de primer semestre o inicio de rama)
                     const noTienePrerrequisitos = prerrequisitos.length === 0;
 
-                    // 6. Actualizar el color y borde del nodo basado en si se puede cursar o no
                     if (noTienePrerrequisitos || todosPrerrequisitosRendidos) {
-                        // Se puede cursar: color celeste con un borde verde para resaltarla
+                        // Se puede cursar: color Orange-Yellow con borde Royal Orange
                         nodesDataset.update({
                             id: nodeId,
-                            color: { background: 'lightskyblue', border: 'green' }, // Fondo celeste, borde verde
-                            font: { color: 'black' }, // Color de texto normal
-                            borderWidth: 3 // Borde más grueso para indicar 'disponible'
+                            color: COLORS.DISPONIBLE,
+                            font: { color: COLORS.TEXTO_NO_RENDIDA },
+                            borderWidth: 3 // Borde más grueso para indicar disponibilidad
                         });
                     } else {
-                        // No se puede cursar aún: color celeste normal con borde gris
+                        // No se puede cursar aún: color Orange-Yellow normal
                         nodesDataset.update({
                             id: nodeId,
-                            color: { background: 'lightskyblue', border: 'lightgray' }, // Fondo celeste, borde gris
-                            font: { color: 'black' }, // Color de texto normal
-                            borderWidth: 1 // Borde normal
+                            color: COLORS.NO_DISPONIBLE,
+                            font: { color: COLORS.TEXTO_NO_RENDIDA },
+                            borderWidth: 2 // Borde normal
                         });
                     }
                 });
             }
 
-            // Evento que se dispara cuando se hace clic en un nodo (asignatura)
+            // Evento al hacer clic en un nodo
             network.on('click', function (params) {
-                // Verificar si se hizo clic en un nodo (y no en el espacio en blanco)
                 if (params.nodes.length > 0) {
-                    const nodeId = params.nodes[0]; // Obtiene el ID del nodo clickeado
-                    // No usamos nodesDataset.get(nodeId) directamente para cambiar 'rendida'
-                    // porque queremos modificar nuestra copia local 'asignaturasData'
-                    // que es la fuente de verdad de los estados.
-
-                    // Encontrar la asignatura original en nuestra lista 'asignaturasData' por su ID
+                    const nodeId = params.nodes[0];
                     const asignaturaIndex = asignaturasData.findIndex(a => a.id === nodeId);
-                    
-                    if (asignaturaIndex !== -1) { // Asegurarse de que la asignatura fue encontrada
+
+                    if (asignaturaIndex !== -1) {
                         const asignatura = asignaturasData[asignaturaIndex];
 
-                        // Alternar el estado 'rendida' de la asignatura (true a false, o false a true)
+                        // Alterna el estado 'rendida'
                         asignatura.rendida = !asignatura.rendida;
 
-                        // Actualizar la apariencia del nodo en la visualización de vis.js
+                        // Actualiza el nodo en el DataSet de vis.js con el nuevo color y texto
+                        // La actualización de color más detallada se hará en actualizarEstadoAsignaturas
                         nodesDataset.update({
                             id: nodeId,
-                            // Cambiar el color basado en el nuevo estado 'rendida'
-                            color: asignatura.rendida ? { background: 'mediumpurple', border: 'mediumpurple' } : { background: 'lightskyblue', border: 'lightgray' },
-                            font: { color: asignatura.rendida ? 'white' : 'black' }, // Color del texto
-                            borderWidth: 1 // Restablece el borde a normal al marcar/desmarcar
+                            // Los colores y bordes se gestionan mejor en la función actualizarEstadoAsignaturas
+                            // Aquí solo garantizamos que el estado interno se actualice
                         });
 
-                        // Después de cambiar el estado de una asignatura,
-                        // debemos volver a verificar y actualizar el estado de TODAS las demás asignaturas
-                        // para ver si alguna se ha desbloqueado o bloqueado.
+                        // Vuelve a verificar qué asignaturas se pueden cursar después de este cambio
                         actualizarEstadoAsignaturas();
                     }
                 }
             });
 
-            // Llamar a la función 'actualizarEstadoAsignaturas' una vez al inicio
-            // para que los colores se muestren correctamente desde que se carga la página.
+            // Llamar a la función al inicio para establecer el estado inicial
             actualizarEstadoAsignaturas();
 
         })
-        .catch(error => console.error('Error cargando los datos:', error)); // Captura y muestra cualquier error al cargar data.json
+        .catch(error => console.error('Error cargando los datos:', error));
 });
